@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation">
+  <meta property="og:title" content="CT-1"/>
+  <meta property="og:description" content="CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <!-- <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/> -->
+
+
+  <!-- <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG"> -->
+  <!-- <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG"> -->
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- <meta name="twitter:image" content="assets/images/your_twitter_banner_image.png"> -->
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>CT-1</title>
+  <link href="static/css/style.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/x-icon" href="assets/images/CT-1.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<style>
+  td {
+    padding: 5px;
+  }
+</style>
+
+<style>
+  /* 导航整体样式 */
+  #toc {
+    position: fixed;          /* 固定在页面左上角 */
+    top: 20px;
+    left: 20px;
+    background: #ffffff;      /* 白色背景 */
+    border: 1px solid #ddd;   /* 边框 */
+    border-radius: 8px;       /* 圆角 */
+    padding: 15px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 阴影 */
+    font-family: "Arial", sans-serif;
+    max-width: 200px;
+  }
+  
+  /* 列表样式 */
+  #toc ul {
+    list-style: none;  /* 去掉默认圆点 */
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* 列表项样式 */
+  #toc li {
+    margin-bottom: 10px;
+  }
+  
+  /* 链接样式 */
+  #toc a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  
+  /* 悬停效果 */
+  #toc a:hover {
+    color: #007bff;
+    transform: translateX(4px);
+  }
+  
+  /* 当前高亮链接（可配合 JS 动态添加类 active） */
+  #toc a.active {
+    color: #007bff;
+    font-weight: 700;
+  }
+</style>
+
+
+<style>
+  .video-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between videos */
+    flex-wrap: wrap; /* Allow videos to wrap on smaller screens */
+    margin-bottom: 30px; /* Space below videos */
+  }
+
+  .video-container video {
+    width: 100%; /* Make video responsive within its container */
+    max-width: 300px; /* Max width for each video */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+  }
+
+  .video-container video:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+  }
+
+  .subtitle-container {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex; /* 使用 flexbox */
+    justify-content: center; /* 水平居中 */
+    align-items: baseline; /* 保持基线对齐 */
+    white-space: nowrap; /* 防止内部文本换行 */
+    flex-wrap: nowrap; /* 明确禁止 flex 项换行 */
+  }
+
+  .subtitle {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8em;
+    color: #333;
+    margin-right: 10px; /* 在标题和参考之间增加一些空间 */
+    margin-bottom: 0; /* 移除 h3 默认的底部外边距 */
+  }
+
+  .reference {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.9em;
+    color: #666;
+    /* 如果需要，可以调整垂直对齐 */
+    position: relative;
+    top: -0.2em; /* 微调参考文本的垂直位置，使其看起来更居中 */
+  }
+</style>
+
+<style>
+  /* General Section Styling */
+  /* Title Styling */
+  .section-title {
+    font-family: 'Montserrat', sans-serif; /* A modern, strong font */
+    font-size: 2.5em; /* Larger title */
+    color: #2c3e50; /* Darker, more professional color */
+    text-align: center;
+    margin-bottom: 40px; /* More space below the title */
+    line-height: 1.2;
+  }
+
+  .section-title .todo-tag {
+    font-size: 0.6em; /* Smaller for the TODO tag */
+    vertical-align: middle;
+    background-color: #f39c12; /* Orange for TODO */
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: normal;
+  }
+
+  /* Description Styling */
+  .description-text {
+    font-family: 'Open Sans', sans-serif; /* Readable body font */
+    font-size: 1.1em; /* Slightly larger text for readability */
+    color: #555;
+    line-height: 1.7; /* Good line height for readability */
+    margin: 0 auto 50px auto; /* Centered, with more space below */
+    max-width: 900px; /* Slightly narrower for better line length */
+    text-align: justify; /* Justified text */
+    padding: 0 15px; /* Inner padding for smaller screens */
+  }
+
+  /* Video Grid Container */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid, min 300px per video */
+    gap: 25px; /* Space between videos */
+    max-width: 1000px; /* Max width for the entire grid */
+    margin: 0 auto; /* Center the grid */
+    padding: 0 15px; /* Inner padding for smaller screens */
+  }
+
+  /* Individual Video Card Styling */
+  .video-card {
+    background-color: white;
+    border-radius: 12px; /* More rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Stronger, more elegant shadow */
+    overflow: hidden; /* Ensures rounded corners apply to video */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+  }
+
+  .video-card:hover {
+    transform: translateY(-8px); /* More pronounced lift on hover */
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  }
+
+  .video-card video {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below video */
+  }
+</style>
+
+<style>
+  /* --- NEW VIDEO GRID STYLING --- */
+  .example-grid {
+    display: grid;
+    /* 响应式网格：在宽屏显示3列，如果空间不足则显示2列，再不足则显示1列 */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px; /* 增加视频示例之间的间距 */
+    max-width: 1200px; /* 允许更宽的网格，以容纳3列 */
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .example-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center; /* 居中文本 */
+    display: flex; /* 让视频和文本垂直排列 */
+    flex-direction: column;
+  }
+
+  .example-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  .example-card video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top-left-radius: 12px; /* 视频顶部圆角 */
+    border-top-right-radius: 12px;
+  }
+
+  .example-card .prompt-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95em; /* 提示文本稍小 */
+    color: #444;
+    padding: 15px 20px 20px; /* 增加内边距 */
+    line-height: 1.6;
+    text-align: left; /* 文本左对齐 */
+    flex-grow: 1; /* 让描述文本占据剩余空间，保持卡片高度一致 */
+  }
+
+  .example-card .prompt-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    text-align: left;
+    padding: 15px 20px 0px;
+  }
+</style>
+
+<style>
+  /* --- NEW COMPLEX EXAMPLE GRID STYLING --- */
+  .complex-example-row-container {
+    display: grid;
+    /* 每一行始终是 4 列：1个图片 + 3个视频 */
+    grid-template-columns: 1fr repeat(3, 1fr);
+    gap: 25px; /* 元素之间的间距 */
+    max-width: 1400px; /* 增加最大宽度以容纳4个元素 */
+    margin: 0 auto 60px auto; /* 底部增加更多间距 */
+    padding: 0 15px;
+    align-items: stretch; /* 确保所有卡片高度相同 */
+  }
+
+  /* Base Card Styling (for image and video) */
+  .base-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    /* 确保 flex 子项填充可用高度 */
+    align-items: stretch;
+  }
+
+  /* Image Specific Styling */
+  .input-image-card {
+    display: flex; /* 确保自身也是一个 Flex 容器，即使父级是 Flex */
+    flex-direction: column; /* 内部元素垂直堆叠 */
+    justify-content: center; /* **核心：沿主轴（垂直方向）居中对齐弹性项目** */
+    align-items: center;   /* **核心：沿交叉轴（水平方向）居中对齐弹性项目** */
+    flex-grow: 1; /* 允许这个卡片占据其父容器 (complex-example-row-container) 中所有可用的额外垂直空间 */
+    padding: 20px; /* 在卡片内部添加一个内边距，防止内容过于贴近边缘 */
+  }
+  .input-image-card img {
+    max-height: 250px; /* 限制图像的最大高度 */
+    width: auto; /* 允许图像根据其原始比例调整宽度 */
+    max-width: 100%; /* 确保图像不会超出父容器的宽度 */
+    object-fit: contain; /* 确保图像内容完全显示在指定区域内，不裁剪，可能会有留白 */
+    background-color: #e9e9e9; /* 图像未覆盖区域的背景颜色 */
+    border-radius: 8px; /* 图像自身的圆角 */
+    margin-bottom: 15px; /* 图像下方与下一个元素（card-label）之间的外边距 */
+    display: block; /* 确保图像作为一个块级元素，可以正确应用外边距和宽度控制 */
+  }
+
+  /* Card Content Styling (新增对齐) */
+  .card-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    padding: 0 20px; /* 调整 padding，因为它现在在居中的图像下方 */
+    margin-bottom: 5px; /* 标签和描述之间的间距 */
+    text-align: center;
+  }
+
+  .card-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95em;
+    color: #444;
+    padding: 0 20px 20px; /* 调整 padding */
+    line-height: 1.5;
+    text-align: center; /* 描述文本也居中 */
+    flex-grow: 1;
+  }
+
+  /* Video Specific Styling (也需要更新 border-radius) */
+  .video-output-card video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* 视频本身也加一点圆角，与图像保持一致 */
+    /* 移除顶部的 border-radius */
+    /* border-top-left-radius: 12px; */
+    /* border-top-right-radius: 12px; */
+  }
+
+  /* Card Content Styling */
+  .card-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    padding: 15px 20px 0px;
+    text-align: center; /* 标签居中 */
+  }
+
+  .card-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95em;
+    color: #444;
+    padding: 10px 20px 20px;
+    line-height: 1.5;
+    text-align: left; /* 描述文本左对齐 */
+    flex-grow: 1; /* 让描述文本占据剩余空间，保持卡片高度一致 */
+  }
+
+  /* Responsive Adjustments for smaller screens */
+  @media (max-width: 1200px) {
+    .complex-example-row-container {
+      grid-template-columns: 1fr; /* 在小屏幕上变为单列 */
+      max-width: 600px;
+    }
+    .card-label, .card-description {
+      text-align: center; /* 描述文本在单列时可以居中 */
+    }
+  }
+</style>
+
+<style>
+  /* Description Styling (retained) */
+  .description-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 auto 50px auto;
+    max-width: 900px;
+    text-align: justify;
+    padding: 0 15px;
+  }
+
+  /* Base Card Styling (retained) */
+  .base-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch; /* 确保所有卡片高度相同 */
+  }
+
+  .base-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    padding: 15px 20px 0px;
+    text-align: center;
+  }
+
+  .card-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95em;
+    color: #444;
+    padding: 10px 20px 20px;
+    line-height: 1.5;
+    text-align: left;
+    flex-grow: 1; /* 确保描述文本占据剩余空间 */
+  }
+
+  /* --- NEW LAYOUT FOR TEXT INPUT + IMAGE/VIDEO CASES --- */
+  .text-input-row-container {
+    display: grid;
+    /* 1列用于文本输入，3列用于视频案例 */
+    grid-template-columns: 1.2fr repeat(3, 1fr); /* 文本列稍微宽一点 */
+    gap: 30px; /* 列之间的间距 */
+    max-width: 1400px; /* 整体最大宽度 */
+    margin: 0 auto 60px auto; /* 底部间距 */
+    align-items: stretch; /* 确保所有列等高 */
+  }
+
+  /* Styling for the Text Input Card */
+  .input-text-card {
+    /* 继承 base-card 样式，但可能需要调整一些内部布局 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 文本内容垂直居中 */
+    padding: 30px; /* 增加文本卡片内部内边距 */
+    text-align: left; /* 文本左对齐 */
+  }
+
+  .input-text-card .text-prompt-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 15px;
+  }
+
+  .input-text-card .long-text-input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.05em;
+    color: #555;
+    line-height: 1.8;
+    flex-grow: 1; /* 让文本占据所有可用空间 */
+  }
+
+  /* Styling for each Image + Video Case Card */
+  .image-video-case-card {
+    display: flex;
+    flex-direction: column;
+    /* 确保图像和视频部分能伸展 */
+  }
+
+  .image-video-case-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    object-fit: cover; /* 图像可能被裁剪以填充空间 */
+    max-height: 180px; /* 限制图像高度，确保视频有足够空间 */
+  }
+
+  .image-video-case-card video {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* 视频的圆角可以单独处理，如果需要 */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .image-video-case-card .case-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.05em;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 15px 5px;
+    text-align: center;
+  }
+
+  .image-video-case-card .case-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    color: #666;
+    padding: 5px 15px 15px;
+    line-height: 1.5;
+    text-align: left;
+    flex-grow: 1; /* 确保描述文本占据剩余空间 */
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+    .text-input-row-container {
+      grid-template-columns: 1fr; /* 在中等屏幕上变为单列 */
+      max-width: 800px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .input-text-card,
+    .image-video-case-card {
+      padding: 20px;
+    }
+    .input-text-card .text-prompt-heading {
+      font-size: 1.1em;
+    }
+    .input-text-card .long-text-input {
+      font-size: 0.95em;
+    }
+    .section-title {
+      font-size: 2em;
+    }
+    .description-text {
+      font-size: 1em;
+    }
+  }
+</style>
+
+<body>
+
+  <section class="section hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <span style="background: linear-gradient(to right, red, hotpink, violet); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                CT-1
+              </span>: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation
+            </h1>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <b>Haoyu Zhao, Zihao Zhang, Jiaxi Gu, Haoran Chen, Qingping Zheng, Pin Tang, Yeyin Jin, <br>
+                Yuang Zhang, Junqi Cheng, Zenghui Lu, Peng Shu, Zuxuan Wu, Yu-Gang Jiang</b>
+              </span><br>
+              <span class="author-block">Fudan University; Tencent.</span>
+            </div>
+  
+            <br>
+  
+            <!-- Buttons -->
+            <div class="buttons is-centered">
+              <a href="#" class="button is-dark is-rounded" target="_blank">
+                <span>📄 arXiv</span>
+              </a>
+              <a href="https://github.com/gulucaptain/Camera-Transformer-1" class="button is-dark is-rounded" target="_blank">
+                <span>💻 Code</span>
+              </a>
+              <a href="#" class="button is-dark is-rounded" target="_blank">
+                <span>🗂 Dataset (Coming Soon)</span>
+              </a>
+            </div>
+  
+            <br>
+  
+            <p>* This project page contains a large number of videos, please wait patiently for them to load.</p>
+            <p>* <span style="color: red">Note:</span> due to the high level of realism and strong camera dynamics in the generated videos, extended viewing may cause visual discomfort for some viewers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<nav id="toc">
+  <ul>
+    <li><a href="#section1"><b>Table of Contents</b></a></li>
+    <li><a href="#section1">Novel paradigm</a></li>
+    <li><a href="#section2">1. Camera-Decision</a></li>
+    <li><a href="#section3">1.1 Longer Prompts</a></li>
+    <li><a href="#section4">1.2 Image-Prompts</a></li>
+    <li><a href="#section5">1.3 Prompt-Images</a></li>
+    <li><a href="#section6">2. Generation</a></li>
+    <li><a href="#section7">2.1 Compared SOTAs</a></li>
+    <li><a href="#section8">2.2 Cross-Model</a></li>
+    <li><a href="#section9">2.3 More Examples</a></li>
+    <li><a href="#section10">2.4 Extension: Driving</a></li>
+  </ul>
+</nav>
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Camera-controllable video generation aims to synthesize videos with flexible and physically plausible camera movements. However, existing methods either provide imprecise camera control from text prompts or rely on labor-intensive manual camera trajectory parameters, limiting their use in automated scenarios. To address these issues, we propose a novel <b>Vision-Language-Camera model</b>, termed <b>CT-1 (Camera Transformer 1)</b>, a specialized model designed to transfer spatial reasoning knowledge to video generation by accurately estimating camera trajectories. Built upon vision-language modules and a Diffusion Transformer model, CT-1 employs a Wavelet-based Regularization Loss in the frequency domain to effectively learn complex camera trajectory distributions. These trajectories are integrated into a video diffusion model to enable spatially aware camera control that aligns with user intentions. To facilitate the training of CT-1, we design a dedicated data curation pipeline and construct <b>CT-200K</b>, a large-scale dataset containing over 47M frames. Experimental results demonstrate that our framework successfully bridges the gap between spatial reasoning and video synthesis, yielding faithful and high-quality camera-controllable videos and improving camera control accuracy by 25.7% over prior methods.
+          </p>
+          <!-- <img style="max-width: 400px; display: block; margin: 0 auto;" src="assets/figs/ots.png" /> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<section class="section hero" id="section0">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Framework</h2>
+      <img style="max-width: 1000px; margin: 0 auto;" class="fit-picture" src="assets/framework/framework.png" alt="Grapefruit slice atop a pile of other slices" />
+      
+      <div style="max-width: 1000px; margin: 0 auto;" class="has-text-justified">
+        <b>Overview of the proposed camera-controllable video generation framework based on the CT-1 model.</b> The framework consists of three main components: (a) a vision–language module for semantic embedding, (b) a Diffusion Transformer module for modeling camera trajectory distributions, and (c) controllable video generation models that synthesize videos conditioned on the predicted trajectories.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light" id="section1">
+  <div class="hero-body">
+    <div class="container">
+      <!-- <h2 class="section-title">1. Camera-Decision-First, Generation-Next.</h2> -->
+      <h2 class="title is-3">"VLC + Diffusion" Paradigm: Camera-Decision-First, Generation-Next</h2>
+      <div class="description-text">
+        In the <b>"camera-decision" stage</b>, our framework semantically determines how the camera moves based on the spatial knowledge within the user's intention, and generate camera trajectories over time. We refer to this category of models as Vision-Language-Camera (VLC) model.
+        A key strength of the VLC model is its capacity to jointly reason about visual content and semantic cues for predicting future spatiotemporal camera poses, thereby promoting semantic alignment between camera trajectories and visual content in the video <b>"generation" stage</b>.  
+      </div>
+      
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_1.mp4" loop controls muted autoplay></video>
+          <p>Qualitative example (a).</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_3.mp4" loop controls muted autoplay></video>
+          <p>Qualitative example (b).</p>
+        </div>
+      </div>
+      <br>
+      <div style="max-width: 1000px; margin: 0 auto;" class="has-text-justified">
+        <figure>
+          <figcaption>
+            <strong>Camera coordinate system and motion semantics.</strong><br>
+            · The <span style="color: red; font-weight: 600;">red axis (<em>x</em>-axis)</span> denotes the horizontal direction, where the arrow direction corresponds to camera movement to the right, and the opposite direction indicates movement to the left.<br>
+            · The <span style="color: #1f77b4; font-weight: 600;">blue axis (<em>z</em>-axis)</span> represents the depth direction, with the arrow direction indicating zoom-in or forward motion, and the opposite direction indicating zoom-out or backward motion.<br>
+            · The <span style="color: #2ca02c; font-weight: 600;">green axis (<em>y</em>-axis)</span> denotes the vertical direction, where the arrow direction corresponds to downward camera motion, and the opposite direction indicates upward motion.<br>
+            * All trajectory visualizations on this webpage follow these coordinate definition.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero" id="section2">
+  <div class="hero-body">
+    <div class="container">
+      <!-- 标题保持不变 -->
+      <h2 class="title is-3">1. CT-1: Camera Trajectories Estimation via Vision-Language Inputs</h2>
+
+      <!-- 描述文本 -->
+      <div class="description-text">
+        We introduces CT-1, our novel method for estimating camera trajectories directly <b>from vision-language inputs</b>. We delve into how CT-1 leverages the rich contextual information from both visual cues and textual descriptions to predict precise and natural camera movements. The examples below demonstrate CT-1's capability to generate diverse and dynamic camera paths. Each example is accompanied by the specific prompt that guided its trajectory estimation.
+      </div>
+
+      <!-- 新的视频示例网格 -->
+      <div class="example-grid">
+        <!-- 示例 1 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_1.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Camera Prompt 1:</div>
+          <p class="prompt-description">The unsteady camera quickly pans from left to right.</p>
+        </div>
+
+        <!-- 示例 2 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_2.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Camera Prompt 2:</div>
+          <p class="prompt-description">The camera rotates around the helicopter, maintaining a steady motion.</p>
+        </div>
+
+        <!-- 示例 3 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_3.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Camera Prompt 3:</div>
+          <p class="prompt-description">The camera moves forward, following the subject from behind with an unsteady motion, marked by noticeable shaking.</p>
+        </div>
+
+        <!-- 示例 4 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_4.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Camera Prompt 4:</div>
+          <p class="prompt-description">The handheld camera slowly moves backward toward the man while panning right to thetrack the walking woman.</p>
+        </div>
+
+        <!-- 示例 5 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_5.mp4" loop controls muted autoplay></video>
+          
+          <div class="prompt-title">Camera Prompt 5:</div>
+          <p class="prompt-description">The camera smoothly dollies forward while simultaneously panning to the right, then continues moving straight.</p>
+        </div>
+
+        <!-- 示例 6 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig7/fig7_6.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Camera Prompt 6:</div>
+          <p class="prompt-description">The camera smoothly moves backward while titling down and panning left, maintaining a steady and fluid motion throughout.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light" id="section3">
+  <div class="hero-body">
+    <div class="container">
+      <!-- 标题保持不变 -->
+      <h2 class="title is-3">1.1 CT-1: Camera Trajectories Estimation under Complex Camera Descriptions</h2>
+
+      <!-- 描述文本 -->
+      <div class="description-text">
+        CT-1 also demonstrates strong camera control performance under long and complex textual prompts.
+      </div>
+
+      <!-- 新的视频示例网格 -->
+      <div class="example-grid">
+        <!-- 示例 1 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_1.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Longer Camera Prompt 1:</div>
+          <p class="prompt-description">The camera begins with a slight arc to the left, capturing a drone POV of a serene lake and dock, before transitioning into a smooth trucking from right to left, maintaining steadiness through until the end.</p>
+        </div>
+
+        <!-- 示例 2 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_2.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Longer Camera Prompt 2:</div>
+          <p class="prompt-description">The handled camera, initially stationary with a smooth steadiness, focuses on three people. It then quickly moves backward to concentrate on two of them as they engage in conversation, maintaining minimal shaking throughout.</p>
+        </div>
+
+        <!-- 示例 3 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_3.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Longer Camera Prompt 3:</div>
+          <p class="prompt-description">The camera moves forward to capture the street view, slightly unsteady with some shaking. Midway, it pans right to adjust its orientation while continuing to move forward, revealing more of the scene.</p>
+        </div>
+
+        <!-- 示例 4 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_4.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Longer Camera Prompt 4:</div>
+          <p class="prompt-description">The camera, mounted on the front of a motorcycle and facing the driver, leads the subject from the front as th emotoroycle advances. As the motorcycle moves forward, the camera moves backward relative to the scene.</p>
+        </div>
+
+        <!-- 示例 5 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_5.mp4" loop controls muted autoplay></video>
+          
+          <div class="prompt-title">Longer Camera Prompt 5:</div>
+          <p class="prompt-description">The camera smoothly executes a forward and right arc around the church building, maintaining a steady motion without any shaking, and concludes with a seamless transition into a trucking motion to the right.</p>
+        </div>
+
+        <!-- 示例 6 -->
+        <div class="example-card">
+          <video src="assets/camera_trajectories/fig8/fig8_6.mp4" loop controls muted autoplay></video>
+          <div class="prompt-title">Longer Camera Prompt 6:</div>
+          <p class="prompt-description">The camera executes an unsteady side-tracking shot, following a person skateboarding to the left. As the skateboarder jumps mid-video, the camera moves up, maintaining its leftward trajectory.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero" id="section4">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">1.2 Multi-instance cross-validation of CT-1 (Image-Prompts)</h2>
+      <div class="description-text">
+        To systematically evaluate the camera trajectory modeling capability of CT-1 under different image-text pairing conditions, we design two complementary cross-validation experiments that examine <b>“multiple camera descriptions with a single image”</b> and <b>“multiple images with a single camera description”</b>, respectively.
+      </div>
+
+      <div class="description-text">
+        Multiple camera descriptions with a single image:
+      </div>
+      
+      <!-- case 1 -->
+      <div class="complex-example-row-container">
+        <!-- 最左侧的输入图像 -->
+        <div class="base-card input-image-card">
+          <img src="assets/across/fig.9/fig9_1.jpg" alt="Input Image 1">
+          <div class="card-label">Reference Image A</div>
+        </div>
+
+        <!-- 右侧的三个输出视频 -->
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_1_1.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories A-1</div>
+          <p class="card-description"><b>Camera Prompt (a): </b>The camera zooming in creates a sense of intimacy and draws attention to the man's facial expressions.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_1_2.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories A-2</div>
+          <p class="card-description"><b>Camera Prompt (b): </b>The camera zooming in creates a sense of intimacy and draws attention to the bed.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_1_3.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories A-3</div>
+          <p class="card-description"><b>Camera Prompt (c): </b>The camera zooming in creates a sense of intimacy and draws attention to the wardrobe.</p>
+        </div>
+      </div>
+
+      <!-- case 2 -->
+      <div class="complex-example-row-container">
+        <!-- 最左侧的输入图像 -->
+        <div class="base-card input-image-card">
+          <!-- 图像不需要顶部圆角，因为父卡片已经有圆角 -->
+          <img src="assets/across/fig.9/fig9_2.jpg" alt="Input Image 1">
+          <div class="card-label">Reference Image B</div>
+        </div>
+
+        <!-- 右侧的三个输出视频 -->
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_2_1.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories B-1</div>
+          <p class="card-description"><b>Camera Prompt (d):</b> The shot focuses on the Greyhound's head and collar.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_2_2.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories B-2</div>
+          <p class="card-description"><b>Camera Prompt (e):</b> The shot focuses on the left side of the living room.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_2_3.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories B-3</div>
+          <p class="card-description"><b>Camera Prompt (f):</b> The shot focuses on the right side of the home dining room.</p>
+        </div>
+      </div>
+
+      <!-- case 3 -->
+      <div class="complex-example-row-container">
+        <!-- 最左侧的输入图像 -->
+        <div class="base-card input-image-card">
+          <!-- 图像不需要顶部圆角，因为父卡片已经有圆角 -->
+          <img src="assets/across/fig.9/fig9_3.jpg" alt="Input Image 1">
+          <div class="card-label">Reference Image C</div>
+        </div>
+        
+        <!-- 右侧的三个输出视频 -->
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_3_1.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories C-1</div>
+          <p class="card-description"><b>Camera Prompt (h):</b> The camera begins wide, stage left, revealing the empty stage. it slowly arcs right, around the actress. The shot tightens as it moves.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_3_2.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories C-2</div>
+          <p class="card-description"><b>Camera Prompt (i):</b> The shot starts on the actress's feet. Its' a tight close-up. The camera slowly zooms in, revealing her full costume. Simultaneously, it cranes upwards.</p>
+        </div>
+
+        <div class="base-card video-output-card">
+          <video src="assets/across/fig.9/fig9_3_3.mp4" loop controls muted autoplay></video>
+          <div class="card-label">Output Trajectories C-3</div>
+          <p class="card-description"><b>Camera Prompt (j):</b> The camera begins far back on the empty stage. It slowly dollies forward. The shot tightens as it approaches the actress.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light" id="section5">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">1.3 Multi-instance cross-validation of CT-1 (Prompt-Images)</h2>
+
+      <div class="description-text">
+        Multiple images with a single camera description:
+      </div>
+
+      <!-- 新的文本输入 + 图像/视频案例 行容器 -->
+      <div class="text-input-row-container">
+        <!-- 最左侧的文本输入卡片 -->
+        <div class="base-card input-text-card">
+          <div class="text-prompt-heading">Camera Prompt A:</div>
+          <p class="long-text-input">
+            The camera smoothly moves closer to the subject.
+          </p>
+        </div>
+
+        <!-- 右侧的三个图像+视频案例 -->
+        <!-- 案例 1 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/1_8ksc7grAAEY_25.jpg" alt="Generated Image 1">
+          <p>Reference Image A-1</p><br>
+          <video src="assets/across/fig.10/1_8ksc7grAAEY_25.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-1</div>
+        </div>
+
+        <!-- 案例 2 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/2_86K3SZvk6T8_2.jpg" alt="Generated Image 2">
+          <p>Reference Image A-2</p><br>
+          <video src="assets/across/fig.10/2_86K3SZvk6T8_2.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-2</div>
+        </div>
+
+        <!-- 案例 3 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/3_BADVm4pD1C8_2.jpg" alt="Generated Image 3">
+          <p>Reference Image A-3</p><br>
+          <video src="assets/across/fig.10/3_BADVm4pD1C8_2.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-3</div>
+        </div>
+      </div>
+
+      <!-- 如果需要，可以复制 `text-input-row-container` 以添加更多行文本输入和对应案例 -->
+      <div class="text-input-row-container">
+        <!-- 最左侧的文本输入卡片 -->
+        <div class="base-card input-text-card">
+          <div class="text-prompt-heading">Camera Prompt B:</div>
+          <p class="long-text-input">
+            The camera rotates horizontally from right to left.
+          </p>
+        </div>
+
+        <!-- case 2 -->
+        <!-- 案例 1 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/4_BhfY7SydJas_0.jpg" alt="Generated Image 1">
+          <p>Reference Image B-1</p><br>
+          <video src="assets/across/fig.10/4_BhfY7SydJas_0.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-1</div>
+        </div>
+
+        <!-- 案例 2 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/5_LOh_uXmel4U_0.jpg" alt="Generated Image 2">
+          <p>Reference Image B-2</p><br>
+          <video src="assets/across/fig.10/5_LOh_uXmel4U_0.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-2</div>
+        </div>
+
+        <!-- 案例 3 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/6_TRB4pPlPtLg_1.jpg" alt="Generated Image 3">
+          <p>Reference Image B-3</p><br>
+          <video src="assets/across/fig.10/6_TRB4pPlPtLg_1.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories A-3</div>
+        </div>
+      </div>
+
+      <!-- case 3 -->
+      <div class="text-input-row-container">
+        <!-- 最左侧的文本输入卡片 -->
+        <div class="base-card input-text-card">
+          <div class="text-prompt-heading">Camera Prompt C:</div>
+          <p class="long-text-input">
+            The screen moves downward as the camera pans down.
+          </p>
+        </div>
+
+        <!-- 右侧的三个图像+视频案例 -->
+        <!-- 案例 1 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/8_-ZN60ycaagc_0.jpg" alt="Generated Image 1">
+          <p>Reference Image C-1</p><br>
+          <video src="assets/across/fig.10/8_-ZN60ycaagc_0.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories C-1</div>
+        </div>
+
+        <!-- 案例 2 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/17_8jJeGkQ37HU_1.jpg" alt="Generated Image 2">
+          <p>Reference Image C-2</p><br>
+          <video src="assets/across/fig.10/17_8jJeGkQ37HU_1.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories C-2</div>
+        </div>
+
+        <!-- 案例 3 -->
+        <div class="base-card image-video-case-card">
+          <img src="assets/across/fig.10/16_8MwK-aj1A0k_2.jpg" alt="Generated Image 3">
+          <p>Reference Image C-3</p><br>
+          <video src="assets/across/fig.10/16_8MwK-aj1A0k_2.mp4" loop controls muted autoplay></video>
+          <div class="case-label">Output Trajectories C-3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero" id="section6">
+  <div class="hero-body">
+    <div class="container">
+      <!-- <h2 class="section-title">1. Camera-Decision-First, Generation-Next.</h2> -->
+      <h2 class="title is-3">2. Video Generation with CT-1</h2>
+      <div class="description-text">
+        We systematically investigate the challenges of camera trajectory estimation and video generation across diverse complex scenarios. As illustrated in the following examples, we focus on multiple representative complex scenes and consider two typical camera motion patterns: <b>forward motion</b> and <b>front-left rotational motion</b>. For each scenario, we design scene-specific textual prompts to guide the model toward reasonable camera motion inference and video generation.
+      </div>
+      <p><b>Below, we give the qualitative examples in Challenging Scenarios.</b></p>
+      <br>
+
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_2.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_4.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_8.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_5.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_7.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/ct_1_shows/show_case_6.mp4" loop controls muted autoplay></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light" id="section7">
+  <div class="hero-body">
+    <div class="container">
+      <!-- <h2 class="section-title">1. Camera-Decision-First, Generation-Next.</h2> -->
+      <h2 class="title is-3">2.1 Compared with State-of-the-Art Foundation Models</h2>
+      <div class="description-text">
+        Furthermore, we compare our method with multiple state-of-the-art foundation models, including <b>CogVideoX, LTX-Video, Wan2.1, and Wan2.2, </b>using the same image and text inputs across diverse scenes. The qualitative visualizations clearly indicate that our approach achieves more accurate and consistent camera control.
+      </div>
+
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/1.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The unsteady camera quickly pans from left to right, then moves forward to approach the screen, with a slight shake throughout the rapid movement.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/2.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The camera smoothly dollies forward while simultaneously panning to the right, then continues moving straight in the same direction with minimal shaking.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/3.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The camera arcs counterclockwise with very smooth, minor movement, maintaining steadiness throughout.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/4.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The drone shot glides forward with a slight downward movement, maintaining a very smooth and steady trajectory throughout the flight.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/5.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The camera moves forward to capture the street view, slightly unsteady with some shaking. Midway, it pans right to adjust its orientation while continuing to move forward, revealing more of the scene.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/6.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The camera smoothly moves backward while tilting down and panning left, maintaining a steady and fluid motion throughout.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/7.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The drone shot smoothly flies forward and downward while tilting down, quickly closing in on a hot air balloon, with the camera movement remaining very smooth and free of any shaking.</p>
+        </div>
+      </div>
+      <br>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="assets/compared_with_others/8.mp4" loop controls muted autoplay></video>
+          <p><b>Camera Prompt:</b> The camera smoothly tracks backward while trucking right, maintaining minimal shaking throughout the moving.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero" id="section8">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">2.2 Cross-Model: applying CT-1 to More Controllable Video Generation Models</h2>
+
+      <div style="max-width: 1000px; margin: 0 auto;" class="has-text-justified">
+        <span>In our camera-controllable video generation framework, the camera parameters predicted by CT-1 are designed to be compatible with existing video generation models. Accordingly, we feed the camera trajectories estimated by CT-1 into CameraCtrl and MotionCtrl, and evaluate their performance on different datasets, namely RealEstate10K and MultiCamVideo.</span>
+      </div>
+      <br>
+    
+      <div class="video-container">
+        <video src="assets/apply_to_others/cameractrl1.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/cameractrl2.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/cameractrl3.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/cameractrl4.mp4" loop controls muted autoplay></video>
+      </div>
+      
+      <div class="subtitle-container">
+        <h3 class="subtitle">CT-1 to CameraCtrl Method</h3>
+        <span class="reference">Ref.: CameraCtrl: Enabling Camera Control for Text-to-Video Generation</span>
+      </div>
+
+      <div class="video-container">
+        <video src="assets/apply_to_others/motionctrl1.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/motionctrl2.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/motionctrl3.mp4" loop controls muted autoplay></video>
+        <video src="assets/apply_to_others/motionctrl4.mp4" loop controls muted autoplay></video>
+      </div>
+      
+      <div class="subtitle-container">
+        <h3 class="subtitle">CT-1 to MotionCtrl Method</h3>
+        <span class="reference">Ref.: MotionCtrl: A Unified and Flexible Motion Controller for Video Generation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light" id="section9">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">2.3 More Examples of Our Camera-Controllable Video Generation Framework</h2>
+    
+      <div class="video-container">
+        <video src="assets/more/more1.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more2.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more3.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more4.mp4" loop controls muted autoplay></video>
+      </div>
+
+      <div class="video-container">
+        <video src="assets/more/more5.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more6.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more7.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more8.mp4" loop controls muted autoplay></video>
+      </div>
+
+      <div class="video-container">
+        <video src="assets/more/more9.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more10.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more11.mp4" loop controls muted autoplay></video>
+        <video src="assets/more/more12.mp4" loop controls muted autoplay></video>
+      </div>
+
+      <div style="max-width: 1000px; margin: 0 auto;" class="has-text-justified">
+        <span>We further validate the effectiveness and robustness of the proposed approach across a broader range of diverse scenarios.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero" id="section10">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">2.4 Extension: performances of CT-1 on Driving Scenarios</h2>
+    
+      <div class="video-container">
+        <video src="assets/driving/driving_case1.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case2.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case3.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case4.mp4" loop controls muted autoplay></video>
+      </div>
+
+      <div class="video-container">
+        <video src="assets/driving/driving_case5.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case6.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case7.mp4" loop controls muted autoplay></video>
+        <video src="assets/driving/driving_case8.mp4" loop controls muted autoplay></video>
+      </div>
+
+      <div style="max-width: 1000px; margin: 0 auto;" class="has-text-justified">
+        <span>Finally, we conduct cross-scenario validation of the CT-1 model and the overall video generation performance in driving scenarios.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  <script>
+  </script>
+</html>
