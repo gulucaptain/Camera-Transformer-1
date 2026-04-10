@@ -13,7 +13,7 @@
 </p>
 
 <p>
-  <strong>Haoyu Zhao</strong>, Zihao Zhang, Jiaxi Gu, Haoran Chen, Qingping Zheng, Pin Tang, Yeyin Jin, <br> Yuang Zhang, Junqi Cheng, Zenghui Lu, Peng Shu, Zuxuan Wu, Yu-Gang Jiang<br>
+  <strong>Haoyu Zhao, Zihao Zhang, Jiaxi Gu, Haoran Chen, Qingping Zheng, Pin Tang, Yeyin Jin, <br> Yuang Zhang, Junqi Cheng, Zenghui Lu, Peng Shu, Zuxuan Wu, Yu-Gang Jiang<br></strong>
   <em>Fudan University; Tencent.</em>
 </p>
 
@@ -103,8 +103,8 @@ The framework consists of three main components:
 
 - 🎯 **VLC Model**: First to formulate camera trajectory estimation as a vision-language understanding task
 - 🌊 **Wavelet-based Regularization Loss**: Novel frequency-domain loss for learning complex camera trajectory distributions
-- 🔌 **Cross-Model Compatibility**: CT-1 predicted trajectories are compatible with existing models (CameraCtrl, MotionCtrl, etc.)
 - 📦 **CT-200K Dataset**: Large-scale dataset with 47M+ frames and dedicated curation pipeline
+- 🔌 **Cross-Model Compatibility**: CT-1 predicted trajectories are compatible with existing models (CameraCtrl, MotionCtrl, etc.)
 - 🚗 **Cross-Domain Generalization**: Validated on general scenes and driving scenarios
 
 ---
@@ -115,7 +115,7 @@ The framework consists of three main components:
 
 The release will include:
 - [ ] CT-1 model code & weights
-- [ ] CT-200K dataset (or subset)
+- [ ] CT-200K dataset
 - [ ] Training pipeline
 - [ ] Inference demo
 - [ ] Evaluation scripts
