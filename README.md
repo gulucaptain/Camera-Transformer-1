@@ -1,15 +1,20 @@
 <div align="center">
 
 <h1>
-  <span style="background: linear-gradient(to right, #e74c3c, #e91e8c, #9b59b6);">CT-1</span>: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation
+  <img src="assets/logo.png" alt="CT-1 Logo" width="120" style="vertical-align: middle; margin-right: 12px;"/>
+  CT-1: Camera Transformer 1
 </h1>
+
+<h2>
+  CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation
+</h2>
 
 <p>
   <a href="https://gulucaptain.github.io/Camera-Transformer-1/"><img src="https://img.shields.io/badge/🌐_Project_Page-CT--1-blue?style=for-the-badge" alt="Project Page"/></a>
   &nbsp;
-  <a href="#"><img src="https://img.shields.io/badge/📄_Paper-ArXiv-red?style=for-the-badge" alt="ArXiv (Coming Soon)"/></a>
+  <a href="https://arxiv.org/abs/2604.09201"><img src="https://img.shields.io/badge/📄_Paper-ArXiv-red?style=for-the-badge" alt="ArXiv"/></a>
   &nbsp;
-  <a href="#"><img src="https://img.shields.io/badge/💻_Code-Coming_Soon-gray?style=for-the-badge" alt="Code Coming Soon"/></a>
+  <a href="https://github.com/gulucaptain/Camera-Transformer-1"><img src="https://img.shields.io/badge/💻_Code-Coming_Soon-gray?style=for-the-badge" alt="Code Coming Soon"/></a>
 </p>
 
 <p>
@@ -18,7 +23,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/github/stars/elephantflow/CT-1?style=social" alt="Stars"/>
+  <img src="https://img.shields.io/github/stars/gulucaptain/Camera-Transformer-1?style=social" alt="Stars"/>
 </p>
 
 </div>
@@ -127,13 +132,23 @@ The release will include:
 If you find this work useful, please consider citing:
 
 ```bibtex
-@article{ct1_2026,
+@article{zhao2026ct1,
   title     = {CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation},
   author    = {Haoyu Zhao, Zihao Zhang, Jiaxi Gu, Haoran Chen, Qingping Zheng, Pin Tang, Yeyin Jin, Yuang Zhang, Junqi Cheng, Zenghui Lu, Peng Shu, Zuxuan Wu, Yu-Gang Jiang},
-  journal   = {arXiv preprint},
+  journal   = {arXiv preprint: 2604.09201},
   year      = {2026}
 }
 ```
+
+---
+
+<a href="https://www.star-history.com/#gulucaptain/Camera-Transformer-1&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gulucaptain/Camera-Transformer-1&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gulucaptain/Camera-Transformer-1&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=gulucaptain/Camera-Transformer-1&type=Date" />
+  </picture>
+</a>
 
 ---
 
