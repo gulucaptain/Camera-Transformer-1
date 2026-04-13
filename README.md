@@ -123,6 +123,9 @@ The release will include:
 - [ ] Inference demo
 - [ ] Evaluation scripts
 
+> 📌 The trajectory visualization code is available in our separate repository:  
+> [Camera Trajectories Visualization](https://github.com/gulucaptain/Camera-Trajectories-Visualization)
+
 ---
 
 ## 📎 Citation
