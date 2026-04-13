@@ -1,9 +1,6 @@
 <div align="center">
 
-<h1>
-  <img src="assets/logo.png" alt="CT-1 Logo" width="120" style="vertical-align: middle; margin-right: 12px;"/>
-  CT-1: Camera Transformer 1
-</h1>
+<img src="assets/logo.png" alt="CT-1 Logo" width="120" />
 
 <h2>
   CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation
