@@ -1,12 +1,11 @@
 <div align="center">
 
 
-<img src="assets/logo.png" alt="CT-1 Logo" width="400" />
+<img src="assets/logo.png" alt="CT-1 Logo" width="500" />
 
-
-<h1>
+<h2>
   CT-1: Vision-Language-Camera Models Transfer Spatial Reasoning Knowledge to Camera-controllable Video Generation
-</h1>
+</h2>
 
 <p>
   <a href="https://gulucaptain.github.io/Camera-Transformer-1/"><img src="https://img.shields.io/badge/🌐_Project_Page-CT--1-blue?style=for-the-badge" alt="Project Page"/></a>
