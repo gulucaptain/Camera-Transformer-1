@@ -1,0 +1,22 @@
+[
+  {
+    "image_pth": "assets/ct_1/images/inference3.png",
+    "prompt": "The camera moves forward, then circles slowly around the sleeping cat from the left side."
+  },
+  {
+    "image_pth": "assets/ct_1/images/inference4.png",
+    "prompt": "The camera slowly pans across the table, showing the newspaper and the tea set."
+  },
+  {
+    "image_pth": "assets/ct_1/images/inference6.png",
+    "prompt": "The camera moves slowly forward along the stone path."
+  },
+  {
+    "image_pth": "assets/ct_1/images/inference9.png",
+    "prompt": "The camera moves slowly forward along the street below."
+  },
+  {
+    "image_pth": "assets/ct_1/images/inference12.png",
+    "prompt": "The camera passes up the bridge and then points towards the right buildings."
+  }
+]
